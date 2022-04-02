@@ -1,13 +1,18 @@
-const transactionsUl = document.querySelector("#transactions")
+const transactionsUl = document.querySelector("#transactions");
+const incomeDisplay = document.querySelector("#money-plus");
+const expanseDisplay = document.querySelector("#money-minus");
+const balanceDisplay =  document.querySelector("#balance");
+
 
 console.log(transactionsUl)
 // transações 
 
 const dummyTransactions = [
     {id: 1, name:"bolo de morango", amount: -20 },
-    {id: 2, name:"torta de maçã", amount: 25 },
-    {id: 3, name:"campari", amount: 215 },
-    {id: 4, name:"vodka", amount: -23 }
+    {id: 2, name:"torta de maçã", amount: -25 },
+    {id: 3, name:"campari", amount: -215 },
+    {id: 4, name:"vodka", amount: -23 },
+    {id: 4, name:"salario", amount: 423 }
    
 ]
 
@@ -18,7 +23,7 @@ const dummyTransactions = [
     const addTransactionsDom = transactions => {
         const operator = transactions.amount < 0 ? '-' : '+';
         const cssclass = transactions.amount < 0 ? 'minus' : 'plus';
-        const amountWithOutOperator = Math.abs(transactions.amount)
+        const amountWithOutOperator = Math.abs(transactions.amount);
         const li = document.createElement("li");
     
         li.classList.add(cssclass);
@@ -31,8 +36,10 @@ const dummyTransactions = [
         const transactionsAmounts = dummyTransactions
         .map(transactions => transactions.amount);
 
+
         const total = transactionsAmounts
-        .reduce((acumulator, transactions) => acumulator + transactions, 0);
+        .reduce((acumulator, transactions) => acumulator + transactions, 0).toFixed(2);
+
 
        const income = transactionsAmounts
        .filter(value => value > 0)
@@ -40,13 +47,16 @@ const dummyTransactions = [
        .toFixed(2)
 
        
-       const expanse = transactionsAmounts
-       .filter(value => value < 0)
-       .reduce((acumulator, value) => acumulator + value, 0)
+       const expanse = Math.abs(transactionsAmounts
+        .filter(value => value < 0)
+        .reduce((acumulator, value) => acumulator + value, 0))
        .toFixed(2)
+
+       balanceDisplay.textContent = `R$ ${total}`
+       incomeDisplay.textContent = `R$ ${income}`
+       expanseDisplay.textContent = `R$ ${expanse}`
  
-        console.log(income)
-        console.log(expanse)
+      
     }
 
 
