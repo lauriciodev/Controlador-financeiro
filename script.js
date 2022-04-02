@@ -2,17 +2,19 @@ const transactionsUl = document.querySelector("#transactions");
 const incomeDisplay = document.querySelector("#money-plus");
 const expanseDisplay = document.querySelector("#money-minus");
 const balanceDisplay =  document.querySelector("#balance");
+const inputTransactonName = document.querySelector("#text");
+const inputTransactonAmount = document.querySelector("#amount");
+const form =  document.querySelector("#form");
 
-
-console.log(transactionsUl)
 // transações 
 
 const dummyTransactions = [
-    {id: 1, name:"bolo de morango", amount: -20 },
+    {id: 1, name:"salario", amount: 423 },
     {id: 2, name:"torta de maçã", amount: -25 },
     {id: 3, name:"campari", amount: -215 },
     {id: 4, name:"vodka", amount: -23 },
-    {id: 4, name:"salario", amount: 423 }
+    {id: 5, name:"bolo de morango", amount: -20 }
+    
    
 ]
 
@@ -29,7 +31,7 @@ const dummyTransactions = [
         li.classList.add(cssclass);
         li.innerHTML = `${transactions.name} <span>${operator} R$ ${amountWithOutOperator}</span><button class="delete-btn">x</button>`
     
-         transactionsUl.prepend(li)
+         transactionsUl.append(li)
     }
 
     const updateValues = () => {
@@ -38,7 +40,8 @@ const dummyTransactions = [
 
 
         const total = transactionsAmounts
-        .reduce((acumulator, transactions) => acumulator + transactions, 0).toFixed(2);
+        .reduce((acumulator, transactions) => acumulator + transactions, 0)
+        .toFixed(2);
 
 
        const income = transactionsAmounts
@@ -59,9 +62,46 @@ const dummyTransactions = [
       
     }
 
+    
+
 
     const init = () => {
+        transactionsUl.innerHTML = ""
         updateValues()
         dummyTransactions.forEach(addTransactionsDom)
     }
     init()
+
+    const generateID = () => Math.round(Math.random() *1000)
+
+    form.addEventListener("submit", event => {
+      event.preventDefault()
+
+      const transactionName = inputTransactonName.value.trim();
+      const transactionAmount = inputTransactonAmount.value.trim();
+      
+       if(transactionName === "" || transactionAmount === ""){
+          alert("por favor preencha todos os campos!");
+          return
+      }
+
+      const transaction =  {
+          id: generateID(), 
+          name:transactionName, 
+          amount:Number(transactionAmount)
+        }
+
+        dummyTransactions.push(transaction)
+
+        init()
+
+         inputTransactonAmount.value = ""
+         inputTransactonName.value = ""
+
+     })
+
+
+
+
+
+    
