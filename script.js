@@ -14,9 +14,9 @@ let transactions = localStorage
 .getItem("transactions") !== null ? localstorageTransaction : [];
 
 const removeTransaction = ID => {
- dummyTransactions = dummyTransactions
+ transactions = transactions
  .filter(transaction => transaction.id !== ID)
-
+ updateLocalStorage()
  init()
 
 }
@@ -40,7 +40,7 @@ const removeTransaction = ID => {
     }
 
     const updateValues = () => {
-        const transactionsAmounts = dummyTransactions
+        const transactionsAmounts = transactions
         .map(transactions => transactions.amount);
 
 
@@ -73,22 +73,40 @@ const removeTransaction = ID => {
     const init = () => {
         transactionsUl.innerHTML = ""
         updateValues()
-        dummyTransactions.forEach(addTransactionsDom)
+        transactions.forEach(addTransactionsDom)
     }
     init()
-
+         
+    const updateLocalStorage = () =>{
+        localStorage.setItem("transactions", JSON.stringify(transactions))
+    }
     const generateID = () => Math.round(Math.random() *1000)
+
+    
+  
+
+
+    //  função que limpa os inputs apos a adição dos dados 
+
+    const clearInputs = () =>{
+        inputTransactonAmount.value = ""
+        inputTransactonName.value = ""
+    }
 
     form.addEventListener("submit", event => {
       event.preventDefault()
 
-      const transactionName = inputTransactonName.value.trim();
-      const transactionAmount = inputTransactonAmount.value.trim();
-      
-       if(transactionName === "" || transactionAmount === ""){
-          alert("por favor preencha todos os campos!");
-          return
-      }
+        // função que verifica os dados vindos do dom
+
+            const transactionName = inputTransactonName.value.trim();
+            const transactionAmount = inputTransactonAmount.value.trim();
+            
+            if(transactionName === "" || transactionAmount === ""){
+                alert("por favor preencha todos os campos!");
+                return
+            }
+
+     
 
       const transaction =  {
           id: generateID(), 
@@ -96,12 +114,12 @@ const removeTransaction = ID => {
           amount:Number(transactionAmount)
         }
 
-        dummyTransactions.push(transaction)
+        transactions.push(transaction)
 
         init()
+        updateLocalStorage()
 
-         inputTransactonAmount.value = ""
-         inputTransactonName.value = ""
+         clearInputs()
 
      })
 
