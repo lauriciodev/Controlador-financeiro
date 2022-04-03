@@ -5,7 +5,8 @@
 ## adicionar logica de soma de gastos ✔️
 ## adicionar todos os valores ao dom ✔️
 ## funcionalidade de adição de dados  pelo o usario ✔️
-## funcionalidade de remoção de dados pelo usuario
+## funcionalidade de remoção de dados pelo usuario ✔️
+## persistencia dos dados armazenando no localstorage 
 
 
 

@@ -8,15 +8,18 @@ const form =  document.querySelector("#form");
 
 // transações 
 
-const dummyTransactions = [
-    {id: 1, name:"salario", amount: 423 },
-    {id: 2, name:"torta de maçã", amount: -25 },
-    {id: 3, name:"campari", amount: -215 },
-    {id: 4, name:"vodka", amount: -23 },
-    {id: 5, name:"bolo de morango", amount: -20 }
-    
-   
-]
+const localstorageTransaction = JSON.parse(localStorage
+    .getItem("transactions"))
+let transactions = localStorage
+.getItem("transactions") !== null ? localstorageTransaction : [];
+
+const removeTransaction = ID => {
+ dummyTransactions = dummyTransactions
+ .filter(transaction => transaction.id !== ID)
+
+ init()
+
+}
 
 
 // função que ira adicionar as trabsações no dom 
@@ -29,7 +32,9 @@ const dummyTransactions = [
         const li = document.createElement("li");
     
         li.classList.add(cssclass);
-        li.innerHTML = `${transactions.name} <span>${operator} R$ ${amountWithOutOperator}</span><button class="delete-btn">x</button>`
+        li.innerHTML = `${transactions.name} 
+        <span>${operator} R$ ${amountWithOutOperator}</span>
+        <button class="delete-btn" onClick="removeTransaction(${transactions.id})">x</button>`
     
          transactionsUl.append(li)
     }
